@@ -201,3 +201,10 @@ snippet prop
 			configurable : ${0:boolean}
 		}
 	);
+
+# Node class
+snippet class
+	function ${1:class_name}() {
+		if (!(this instanceof $1))
+			{ return new $1(arguments); }
+	}

@@ -59,7 +59,7 @@ snippet getopt
 	  -h|help       Display this message
 	  -v|version    Display script version
 
-			EOT
+	EOT
 	}    # ----------  end of function usage  ----------
 
 	#-----------------------------------------------------------------------
@@ -77,16 +77,37 @@ snippet getopt
 		\? )  echo -e "\n  Option does not exist : $OPTARG\n"
 			  usage; exit 1   ;;
 
+		:  )  echo -e "\n Option -$OPTARG requires an additional parameter"
+			  usage; exit 1   ;;
+
 	  esac    # --- end of case ---
 	done
 	shift $(($OPTIND-1))
 snippet root
 	if [ \$(id -u) -ne 0 ]; then exec sudo \$0; fi
 snippet fun
+	#===  FUNCTION  ================================================================
+	#         NAME:  $1
+	#  DESCRIPTION:  ${2:description}
+	#===============================================================================
 	${1:function_name}() {
 		${0:#function_body}
 	}
 snippet ffun
+	#===  FUNCTION  ================================================================
+	#         NAME:  $1
+	#  DESCRIPTION:  ${2:description}
+	#===============================================================================
 	function ${1:function_name}() {
 		${0:#function_body}
 	}
+snippet input
+	while true; do
+		read -p "${1:Do you wish to install this program?} [Y/n]: " yn
+		case ${yn:-y} in
+			[Yy]* ) ${0: echo "You said $yn"}; break;;
+			[Nn]* ) exit;;
+			* ) echo "${2:Please answer yes or no.}";;
+		esac
+	done
+
